@@ -38,7 +38,7 @@ def main():
 		json_file.close()
 	elif args.new != None:
 		# todo check args
-		font_in.new()
+		font_in.new(args.start_char, args.stop_char, args.width, args.height)
 	else:
 		print('Missing import (from_binary/from_json) or new argument.')
 		exit(1)
