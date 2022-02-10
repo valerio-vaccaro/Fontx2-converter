@@ -11,7 +11,20 @@ class FontX2:
 		pass
 
 	def new(self, start, stop, width, height):
-		pass
+		self.type = 'FONTX2' # magic code
+		self.name = 'NEW     ' # font name
+		self.width = width # width
+		self.height = height # height
+
+		fs = (self.width + 7) // 8 * self.height # font size
+		self.flag = 1
+
+		self.cb = [{'start': start,'end': stop}]
+		self.chars_number = stop - start
+		self.chars = []
+		for c in range(start, stop):
+			font = [[0 for i in range(self.width)] for j in range(self.height)]
+			self.chars.append({'char': c, 'bitmap': font})
 
 	def from_binary(self, filename):
 		self.filename = filename # filename
@@ -60,8 +73,17 @@ class FontX2:
 				self.chars.append({'char': c, 'bitmap': font})
 
 	def invert(self):
-		pass
-
+		for c in self.chars: # read a single char
+			y = 0;
+			for row in c['bitmap']:
+				x = 0
+				for col in row:
+					if col == 1:
+						c['bitmap'][y][x] = 0
+					else:
+						c['bitmap'][y][x] = 1
+					x += 1
+				y += 1
 
 	def crop(self, result, sx=0, dx=0, top=0, bottom=0):
 		result.type = self.type # magic code
